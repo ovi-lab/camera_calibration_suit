@@ -10,9 +10,11 @@ loguru = "^0.5.3"
 opencv-python = "^4.5.2"
 opencv-contrib-python = "^4.5.2"
 click = "^8.0.1"
+tqdm = "^4.61.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+readme-renderer = "^29.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
