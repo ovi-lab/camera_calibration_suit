@@ -11,7 +11,6 @@ Installation
     pip install git+https://github.com/hcilab-uofm/camera_calibration_suit
 
 
-
 Usage
 -----
 
@@ -23,7 +22,13 @@ Single camera calibration
                 
      run-calibration generate-chessboard
 
-2. Capture a set of images from the camera of the chessboard pattern geneated and place them in a directory.
+2. Capture a set of images from the camera of the chessboard pattern geneated and place them in a directory. You can use the following for that
+
+   .. code-block:: bash
+
+      run-calibration capture-images captured_chessboard_images
+
+Where `captured_chessboard_images` is a directory.
 
 
 3. Run the `process-chessboard-images` command:
