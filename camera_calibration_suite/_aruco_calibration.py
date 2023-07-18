@@ -9,15 +9,20 @@ from loguru import logger
 from tqdm import tqdm
 
 
+def default_aruco_dict():
+    return aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
+
+
 def _default_aruco_board():
-    aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
+    aruco_dict = default_aruco_dict()
     board = aruco.CharucoBoard((7, 7), 0.3, 0.18, aruco_dict)
     return aruco_dict, board
 
 
-def gen_aruco_chessboard():
-    _, board = _default_aruco_board()
-    imboard = board.generateImage((2000, 2000))
+def gen_aruco_chessboard(board=None, size=2000):
+    if board is None:
+        _, board = _default_aruco_board()
+    imboard = board.generateImage((size, size))
     logger.info("Generating file chessboard.png")
     cv2.imwrite("chessboard.png", imboard)
 
