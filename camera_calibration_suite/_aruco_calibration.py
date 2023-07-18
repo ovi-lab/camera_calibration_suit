@@ -10,14 +10,14 @@ from tqdm import tqdm
 
 
 def _default_aruco_board():
-    aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
-    board = aruco.CharucoBoard_create(7, 5, 1, .8, aruco_dict)
+    aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
+    board = aruco.CharucoBoard((7, 7), 0.3, 0.18, aruco_dict)
     return aruco_dict, board
 
 
 def gen_aruco_chessboard():
-    aruco_dict, board = _default_aruco_board()
-    imboard = board.draw((2000, 2000))
+    _, board = _default_aruco_board()
+    imboard = board.generateImage((2000, 2000))
     logger.info("Generating file chessboard.png")
     cv2.imwrite("chessboard.png", imboard)
 
