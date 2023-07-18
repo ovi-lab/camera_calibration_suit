@@ -1,7 +1,7 @@
 import click
 from enum import Enum
 from camera_calibration_suite._aruco_calibration import gen_aruco_chessboard, process_aruco_chessboard_images
-from camera_calibration_suite._generic_capture import capture_images
+import camera_calibration_suite._generic_capture as generic_capture
 
 
 class Methods(Enum):
@@ -44,5 +44,5 @@ def capture_images(dir_name, image_ext, camera_or_file):
     """Use opencv to capture images for calibration."""
     if camera_or_file.isdigit():
         camera_or_file = int(camera_or_file)
-    capture_images(camera_or_file, dir_name, image_ext)
+    generic_capture.capture_images(camera_or_file, dir_name, image_ext)
 

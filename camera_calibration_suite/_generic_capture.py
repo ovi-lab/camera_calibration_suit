@@ -36,7 +36,7 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
                 break
             cv2.imwrite(str(out_file_name), frame)
             logger.info(f"Writing image {out_file_name}")
-            image_index = 1
+            image_index += 1
 
     cap.release()
     cv2.destroyAllWindows()
