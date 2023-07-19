@@ -40,9 +40,10 @@ def process_chessboard_images(dir_name, image_ext, method, display):
 @click.argument("dir_name", type=click.Path())
 @click.option("-e", "--image-ext", type=str, help="Image extension to use", default="jpg")
 @click.option("-c", "--camera-or-file", type=str, help="camera index or file name to pass to opencv", default="0")
-def capture_images(dir_name, image_ext, camera_or_file):
+@click.option("-t", "--wait-time-ms", type=int, help="wait time for each frame.", default=30)
+def capture_images(dir_name, image_ext, camera_or_file, wait_time_ms):
     """Use opencv to capture images for calibration."""
     if camera_or_file.isdigit():
         camera_or_file = int(camera_or_file)
-    generic_capture.capture_images(camera_or_file, dir_name, image_ext)
+    generic_capture.capture_images(camera_or_file, dir_name, image_ext, wait_time_ms)
 

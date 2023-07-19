@@ -4,7 +4,7 @@ from loguru import logger
 import cv2
 
 
-def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path , str], ext_name: str="jpg") -> None:
+def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path , str], ext_name: str="jpg", wait_time_ms:int=30) -> None:
     "From the video stream in camera_index, capture images and store them."
     cap = cv2.VideoCapture(camera_or_file)
     image_index = 0
@@ -25,7 +25,7 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)
 
         cv2.imshow('frame', frame)
-        key = cv2.waitKey(1)
+        key = cv2.waitKey(wait_time_ms)
         if key == ord('q'):
             logger.info("Exiting")
             break
