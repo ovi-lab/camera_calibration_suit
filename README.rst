@@ -48,3 +48,20 @@ Where `captured_chessboard_images` is a directory.
   >>> image = cv2.imread("test.jpg")
   >>> camera_matrix, distortion_coefficients = np.load("camera_parameters.npy", allow_pickle=True)
   >>> cv2.undistort(image, camera_matrix, distortion_coefficients, None)
+
+
+Capture images
+~~~~~~~~~~~~~~
+
+To capture images you can use the following command:
+
+.. code-block:: bash
+                poetry run run-calibration capture-images image-dir
+
+
+Where images will be stored in `image-dir`. Also has the following options:
+- `-e`, (`--image-ext`): Image extension to use (defult `jpg`).
+- `-c` (`--camera-or-file`): camera index or file name to pass to opencv. Defaults to `0`, which is the 0 index camera.
+- `-t`, (`--wait-time-ms`): Wait time for each frame in milliseconds (default 30).
+- `-h`, (`--display-height`): Display height (default 720).
+- `--help`
