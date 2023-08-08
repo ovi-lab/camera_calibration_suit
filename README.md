@@ -4,38 +4,32 @@ Current implementation contains:
 - Single camera calibration using aruco marker configuration.
 
 
-Installation
-------------
-.. code-block:: bash
+## Installation
+```sh
+pip install git+https://github.com/hcilab-uofm/camera_calibration_suit
+```
 
-    pip install git+https://github.com/hcilab-uofm/camera_calibration_suit
 
+## Usage
 
-Usage
------
-
-Single camera calibration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+### Single camera calibration
 1. Generate the marker configuration image:
-
-   .. code-block:: bash
-                
-     run-calibration generate-chessboard
+   ```sh 
+   run-calibration generate-chessboard
+   ```
 
 2. Capture a set of images from the camera of the chessboard pattern geneated and place them in a directory. You can use the following for that
 
-   .. code-block:: bash
+    ```sh
+    run-calibration capture-images captured_chessboard_images
+    ```
 
-      run-calibration capture-images captured_chessboard_images
-
-Where `captured_chessboard_images` is a directory.
-
+    Where `captured_chessboard_images` is a directory.
 
 3. Run the `process-chessboard-images` command:
-    
-   .. code-block:: bash
-                
-     run-calibration process-chessboard-images captured_chessboard_images JPG
+   ```
+   run-calibration process-chessboard-images captured_chessboard_images JPG
+   ```
 
    This saves the parameters in a file named `camera_parameters.npy`
    Assuming the direcotry containing the images is named `captured_chessboard_images`, and the image extension is `JPG`.
@@ -50,14 +44,13 @@ Where `captured_chessboard_images` is a directory.
   >>> cv2.undistort(image, camera_matrix, distortion_coefficients, None)
 
 
-Capture images
-~~~~~~~~~~~~~~
+### Capture images
 
 To capture images you can use the following command:
 
-.. code-block:: bash
-                poetry run run-calibration capture-images image-dir
-
+```sh
+poetry run run-calibration capture-images image-dir
+```
 
 Where images will be stored in `image-dir`. Also has the following options:
 - `-e`, (`--image-ext`): Image extension to use (defult `jpg`).
@@ -65,3 +58,5 @@ Where images will be stored in `image-dir`. Also has the following options:
 - `-t`, (`--wait-time-ms`): Wait time for each frame in milliseconds (default 30).
 - `-h`, (`--display-height`): Display height (default 720).
 - `--help`
+
+This can be used as a common tool as well.
