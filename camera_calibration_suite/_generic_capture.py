@@ -15,7 +15,8 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
 
     image_index = 0
     directory = Path(dir_name)
-    file_name = "image_{}." + ext_name
+    # First {} is for the id, second is for the frame number
+    file_name = "image_{}_frame_{}." + ext_name
 
     logger.info(f"Capturing video from {camera_or_file}.")
     logger.info(f"Directory to store - {directory}   with extension {ext_name}")
@@ -69,7 +70,7 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
         elif key == ord('b'):
             cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_number - 10)
         elif key == 13:  # enter
-            out_file_name = directory / file_name.format(image_index)
+            out_file_name = directory / file_name.format(image_index, current_frame_number)
             if out_file_name.exists():
                 logger.error(f"File {out_file_name} already exists")
                 break
