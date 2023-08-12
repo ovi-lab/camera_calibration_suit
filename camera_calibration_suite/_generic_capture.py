@@ -11,6 +11,8 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
         logger.error("Failed cap.isOpened()")
         return
 
+    total_frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT);
+
     image_index = 0
     directory = Path(dir_name)
     file_name = "image_{}." + ext_name
@@ -27,10 +29,19 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
     logger.info("Press <RET> to save image, `q` to exit, `b` to rewid 5 frames back, `p` to play/pause.")
 
     _current_wait_time = wait_time_ms
+    prev_frame = None
+    frame_id = 0
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
-            logger.error("Failed cap.read()")
+            # HACK: Since CAP_PROP_FRAME_COUNT it not reliable, testing if within 5 frames
+            if abs(frame_id - total_frame_count) > 5:
+                logger.error("Failed cap.read()")
+            frame = prev_frame
+        else:
+            prev_frame = frame
+            frame_id = cap.get(cv2.CAP_PROP_POS_FRAMES);
+
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)
 
         h, w = frame.shape[:2]
@@ -38,7 +49,11 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
             factor = 1
         else:
             factor = h/display_height
-        cv2.imshow('frame', cv2.resize(frame, (round(w/factor), round(h/factor))))
+
+        current_frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
+        display_img = cv2.resize(frame, (round(w/factor), round(h/factor)))
+        display_img = cv2.putText(display_img, f"Frame: {current_frame_number}", (10, 10), cv2.FONT_HERSHEY_DUPLEX, 0.3, (0, 255, 0), 1)
+        cv2.imshow('frame', display_img)
 
         key = cv2.waitKey(_current_wait_time)
         if key == ord('q'):
@@ -52,7 +67,6 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
             else:
                 _current_wait_time = 0
         elif key == ord('b'):
-            current_frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
             cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_number - 10)
         elif key == 13:  # enter
             out_file_name = directory / file_name.format(image_index)
