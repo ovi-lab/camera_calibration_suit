@@ -27,7 +27,7 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
     else:
         logger.warning(f"Directory {directory} already exists.")
 
-    logger.info("Press <RET> to save image, `q` to exit, `b` to rewid 5 frames back, `p` to play/pause.")
+    logger.info("Press <RET> to save image, `q` to exit, `b` to rewind by 1 frame, `B` to rewid 10 frames back, `p` to play/pause.")
 
     _current_wait_time = wait_time_ms
     prev_frame = None
@@ -67,8 +67,10 @@ def capture_images(camera_or_file: Union[int, Path, str], dir_name: Union[Path ,
                 _current_wait_time = wait_time_ms
             else:
                 _current_wait_time = 0
-        elif key == ord('b'):
-            cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_number - 10)
+        elif key == ord('b'):  # go back by 1 frame
+            cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_number - 2)
+        elif key == ord('B'):  # go back by 10 frames
+            cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_number - 11)
         elif key == 13:  # enter
             out_file_name = directory / file_name.format(image_index, current_frame_number)
             if out_file_name.exists():
